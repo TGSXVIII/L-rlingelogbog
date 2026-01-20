@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_laerlingeslogbog/login.dart';
-import 'package:flutter_laerlingeslogbog/global.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,21 +16,21 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Select Login'),
+      home: const SelectLogin(title: 'Login'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class SelectLogin extends StatefulWidget {
+  const SelectLogin({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<SelectLogin> createState() => _SelectLoginState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _SelectLoginState extends State<SelectLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
               width: 300,
               child: TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: Global.primaryColor,
+                  backgroundColor: Colors.blueAccent,
                   foregroundColor: Colors.white,
                 ),
                 onPressed: () {},
@@ -64,17 +62,10 @@ class _MyHomePageState extends State<MyHomePage> {
               width: 300,
               child: TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: Global.primaryColor,
+                  backgroundColor: Colors.blueAccent,
                   foregroundColor: Colors.white,
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginPage(title: 'Login'),
-                    ),
-                  );
-                },
+                onPressed: () {},
                 child: Text('lærer/mester'),
               ),
             ),

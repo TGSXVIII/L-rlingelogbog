@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_laerlingeslogbog/global.dart';
+import 'package:flutter_laerlingeslogbog/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -107,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const LoginPage(title: 'Login'),
+                      builder: (context) => const HomePage(title: 'Home'),
                     ),
                   );
                 },
