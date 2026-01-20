@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_laerlingeslogbog/global.dart';
+import 'package:flutter_laerlingeslogbog/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SelectLogin(title: 'Login'),
+      home: const SelectLogin(title: 'Select login'),
     );
   }
 }
@@ -51,7 +53,7 @@ class _SelectLoginState extends State<SelectLogin> {
               width: 300,
               child: TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: Colors.blueAccent,
+                  backgroundColor: Global.primaryColor,
                   foregroundColor: Colors.white,
                 ),
                 onPressed: () {},
@@ -62,10 +64,17 @@ class _SelectLoginState extends State<SelectLogin> {
               width: 300,
               child: TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: Colors.blueAccent,
+                  backgroundColor: Global.primaryColor,
                   foregroundColor: Colors.white,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(title: 'Login'),
+                    ),
+                  );
+                },
                 child: Text('lærer/mester'),
               ),
             ),
