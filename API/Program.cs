@@ -7,7 +7,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
-        new MySqlServerVersion(new Version(10, 11, 2)) // Replace with your MariaDB version
+        new MySqlServerVersion(new Version(10, 11, 14)) // Replace with your MariaDB version
     )
 );
 
