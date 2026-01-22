@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_laerlingeslogbog/global.dart';
 import 'package:flutter_laerlingeslogbog/templates/footer.dart';
-import 'package:flutter_laerlingeslogbog/templates/header.dart';
+import 'package:flutter_laerlingeslogbog/templates/headerWithBack.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:flutter_laerlingeslogbog/todaysTasks.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,27 +21,27 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const HomePage(title: 'Home'),
+      home: const TodaysTasks(title: 'TodaysTasks'),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
+class TodaysTasks extends StatefulWidget {
+  const TodaysTasks({super.key, required this.title});
   final String title;
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<TodaysTasks> createState() => _TodaysTasksState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _TodaysTasksState extends State<TodaysTasks> {
   @override
   Widget build(BuildContext context) {
     final ongoingItems = List.generate(4, (i) => i);
     final measureItems = List.generate(4, (i) => i);
 
     return Scaffold(
-      appBar: const Header(),
+      appBar: const HeaderWithBack(),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
@@ -85,15 +84,7 @@ class _HomePageState extends State<HomePage> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 22),
                               ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const TodaysTasks(title: 'TodaysTasks'),
-                                  ),
-                                );
-                              },
+                              onPressed: () {},
                               child: const Text(
                                 "Se opgaver",
                                 style: TextStyle(fontWeight: FontWeight.w700),
