@@ -85,11 +85,10 @@ class _LoginPageState extends State<LoginPage> {
                   const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: TextField(
-                        style:
-                            const TextStyle(color: Colors.black), // text color
+                        style: const TextStyle(color: Colors.black),
                         decoration: const InputDecoration(
                           filled: true,
-                          fillColor: Colors.white, // background color
+                          fillColor: Colors.white,
                           border: OutlineInputBorder(),
                         ),
                       )),
