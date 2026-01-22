@@ -21,14 +21,12 @@ class Footer extends StatelessWidget {
                 constraints: const BoxConstraints(),
                 onPressed: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomePage(title: 'home',)),
+                  MaterialPageRoute(
+                      builder: (context) => const HomePage(
+                            title: 'home',
+                          )),
                 ),
                 icon: const Icon(Icons.cottage),
-              ),
-              const SizedBox(height: 2),
-              const Text(
-                'Home',
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -40,14 +38,12 @@ class Footer extends StatelessWidget {
                 constraints: const BoxConstraints(),
                 onPressed: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomePage(title: 'home',)),
+                  MaterialPageRoute(
+                      builder: (context) => const HomePage(
+                            title: 'home',
+                          )),
                 ),
                 icon: const Icon(Icons.calendar_month),
-              ),
-              const SizedBox(height: 2),
-              const Text(
-                'Home',
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -60,15 +56,13 @@ class Footer extends StatelessWidget {
                 iconSize: 50,
                 onPressed: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomePage(title: 'home', )),
+                  MaterialPageRoute(
+                      builder: (context) => const HomePage(
+                            title: 'home',
+                          )),
                 ),
                 icon: const Icon(Icons.add_circle_rounded),
               ),
-              const SizedBox(height: 2),
-              const Text(
-                'Home',
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
-              ),
             ],
           ),
           Column(
@@ -79,15 +73,13 @@ class Footer extends StatelessWidget {
                 constraints: const BoxConstraints(),
                 onPressed: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomePage(title: 'home',)),
+                  MaterialPageRoute(
+                      builder: (context) => const HomePage(
+                            title: 'home',
+                          )),
                 ),
                 icon: const Icon(Icons.article_outlined),
               ),
-              const SizedBox(height: 2),
-              const Text(
-                'Home',
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
-              ),
             ],
           ),
           Column(
@@ -98,22 +90,17 @@ class Footer extends StatelessWidget {
                 constraints: const BoxConstraints(),
                 onPressed: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomePage(title: 'home',)),
+                  MaterialPageRoute(
+                      builder: (context) => const HomePage(
+                            title: 'home',
+                          )),
                 ),
                 icon: const Icon(Icons.person),
-              ),
-              const SizedBox(height: 2),
-              const Text(
-                'Home',
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
               ),
             ],
           ),
         ],
       ),
-
-
     );
   }
-
 }

@@ -56,7 +56,14 @@ class _SelectLoginState extends State<SelectLogin> {
                   backgroundColor: Global.primaryColor,
                   foregroundColor: Colors.white,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(title: 'Login'),
+                    ),
+                  );
+                },
                 child: Text('unilogin'),
               ),
             ),
