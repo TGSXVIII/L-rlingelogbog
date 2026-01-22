@@ -3,6 +3,7 @@ import 'package:flutter_laerlingeslogbog/global.dart';
 import 'package:flutter_laerlingeslogbog/templates/footer.dart';
 import 'package:flutter_laerlingeslogbog/templates/header.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:flutter_laerlingeslogbog/todaysTasks.dart';
 
 void main() {
   runApp(const MyApp());
@@ -84,7 +85,15 @@ class _HomePageState extends State<HomePage> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 22),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const TodaysTasks(title: 'TodaysTasks'),
+                                  ),
+                                );
+                              },
                               child: const Text(
                                 "Se opgaver",
                                 style: TextStyle(fontWeight: FontWeight.w700),
