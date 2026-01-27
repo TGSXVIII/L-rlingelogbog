@@ -13,3 +13,4 @@ global using System.Data;
 // ------- API ------- //
 global using API.Models;
 global using API.Data;
+global using API.DTO;
