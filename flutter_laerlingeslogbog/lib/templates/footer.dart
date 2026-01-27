@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_laerlingeslogbog/global.dart';
 import 'package:flutter_laerlingeslogbog/home.dart';
+import 'package:flutter_laerlingeslogbog/startTask.dart';
 
 class Footer extends StatelessWidget {
   const Footer({super.key});
@@ -57,8 +58,8 @@ class Footer extends StatelessWidget {
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const HomePage(
-                            title: 'home',
+                      builder: (context) => const StartTask(
+                            title: 'startTask',
                           )),
                 ),
                 icon: const Icon(Icons.add_circle_rounded),
