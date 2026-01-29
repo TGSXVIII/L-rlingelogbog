@@ -13,8 +13,8 @@ namespace API.DTO
             InProgress,
             Completed
         }
-        public GetEducationalStandartsDTO educationStandartsId { get; set; }
-        public GetUserDTO assignedToId { get; set; }
-        public GetUserDTO createdById { get; set; }
+        public GetEducationalStandartsDTO educationStandartsDTO { get; set; }
+        public GetUserDTO assignedToDTO { get; set; }
+        public GetUserDTO createdByDTO { get; set; }
     }
 }
