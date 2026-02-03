@@ -21,8 +21,17 @@ namespace API.Controllers
                     Grade = ue.Grade,
                     UserDTO = new GetUserDTO
                     {
-                        Name = ue.GetUserDTO.Name
-
+                        Id = ue.GetUserDTO.Id,
+                        Name = ue.GetUserDTO.Name,
+                        Email = ue.GetUserDTO.Email,
+                        Role = ue.GetUserDTO.Role
+                    },
+                    educationDTO = new GetEducationDTO
+                    {
+                        Id = ue.EducationDTO.Id,
+                        Degree = ue.EducationDTO.Degree,
+                        Institution = ue.EducationDTO.Institution,
+                        YearOfCompletion = ue.EducationDTO.YearOfCompletion
                     }
 
                 })
@@ -37,7 +46,22 @@ namespace API.Controllers
                 .Select(ue => new GetUsers_EducationDTO
                 {
                     Id = ue.Id,
-                    // TODO: map foreign keys & other fields
+                    Grade = ue.Grade,
+                    UserDTO = new GetUserDTO
+                    {
+                        Id = ue.GetUserDTO.Id,
+                        Name = ue.GetUserDTO.Name,
+                        Email = ue.GetUserDTO.Email,
+                        Role = ue.GetUserDTO.Role
+                    },
+                    educationDTO = new GetEducationDTO
+                    {
+                        Id = ue.EducationDTO.Id,
+                        Degree = ue.EducationDTO.Degree,
+                        Institution = ue.EducationDTO.Institution,
+                        YearOfCompletion = ue.EducationDTO.YearOfCompletion
+                    }
+
                 })
                 .FirstOrDefaultAsync();
 
@@ -52,7 +76,9 @@ namespace API.Controllers
         {
             var entity = new Users_Education
             {
-                // TODO: assign UserId, EducationId, etc.
+                Grade = "N/A",
+                UserId = dto.UserId,
+                EducationId = dto.EducationId
             };
 
             _context.Users_Education.Add(entity);
@@ -61,18 +87,34 @@ namespace API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = entity.Id }, new GetUsers_EducationDTO
             {
                 Id = entity.Id,
-                // TODO: map properties
+                Grade = entity.Grade,
+                UserDTO = new GetUserDTO
+                {
+                    Id = entity.GetUserDTO.Id,
+                    Name = entity.GetUserDTO.Name,
+                    Email = entity.GetUserDTO.Email,
+                    Role = entity.GetUserDTO.Role
+                },
+                educationDTO = new GetEducationDTO
+                {
+                    Id = entity.EducationDTO.Id,
+                    Degree = entity.EducationDTO.Degree,
+                    Institution = entity.EducationDTO.Institution,
+                    YearOfCompletion = entity.EducationDTO.YearOfCompletion
+                }
             });
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, UpdateUsers_EducationDTO dto)
+        public async Task<IActionResult> Update(UpdateUsers_EducationDTO dto)
         {
-            var entity = await _context.Users_Education.FindAsync(id);
+            var entity = await _context.Users_Education
+                .Where(ue => ue.UserId == dto.UserId && ue.EducationId == dto.EducationId)
+                .FirstOrDefaultAsync();
             if (entity == null)
                 return NotFound();
 
-            // TODO: update properties
+            entity.Grade = dto.Grade;
 
             await _context.SaveChangesAsync();
             return NoContent();
