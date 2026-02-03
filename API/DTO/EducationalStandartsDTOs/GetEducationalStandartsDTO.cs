@@ -6,6 +6,6 @@ namespace API.DTO
         public string Title { get; set; }
         public string Description { get; set; }
         public string Number { get; set; }
-        public getEducationDTO educationId { get; set; }
+        public GetEducationDTO educationDTO { get; set; }
     }
 }

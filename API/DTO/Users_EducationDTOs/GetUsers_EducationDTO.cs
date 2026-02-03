@@ -4,7 +4,7 @@ namespace API.DTO
     {
         public int Id { get; set; }
         public string Grade { get; set; }
-        public GetUserDTO UserId { get; set; }
-        public GetEducationDTO educationId { get; set; }
+        public GetUserDTO UserDTO { get; set; }
+        public GetEducationDTO educationDTO { get; set; }
     }
 }
