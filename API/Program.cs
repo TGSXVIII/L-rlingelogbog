@@ -28,6 +28,13 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "uploads")),
+    RequestPath = "/uploads"
+});
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

@@ -4,6 +4,10 @@ namespace API.DTO
     {
         public int Id { get; set; }
         public string Path { get; set; }
-        public string Type { get; set; }
+        public enum Type
+        {
+            Image,
+            Video
+        }
     }
 }

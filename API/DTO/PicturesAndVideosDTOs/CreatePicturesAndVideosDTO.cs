@@ -2,8 +2,13 @@ namespace API.DTO
 {
     public class CreatePicturesAndVideosDTO
     {
-        public string Path { get; set; }
-        public string Type { get; set; }
+        public IFormFile File { get; set; }
+        public string Name { get; set; }
+        public enum Type
+        {
+            Image,
+            Video
+        }
         public int taskId { get; set; }
     }
 }

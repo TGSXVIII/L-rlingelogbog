@@ -13,8 +13,13 @@
             InProgress,
             Completed
         }
-        public EducationalStandarts educationStandartsId { get; set; }
+        public int educationStandartsId { get; set; }
+        public EducationalStandarts educationStandarts { get; set; }
+        public int assignedToId { get; set; }
         public Users assignedTo { get; set; }
+        public int createdById { get; set; }
         public Users createdBy { get; set; }
+        public ICollection<PicturesAndVideos> PicturesAndVideos { get; set; }
+        = new List<PicturesAndVideos>();
     }
 }

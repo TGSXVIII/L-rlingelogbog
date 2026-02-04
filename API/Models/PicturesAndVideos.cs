@@ -3,8 +3,13 @@
     public class PicturesAndVideos
     {
         public int Id { get; set; }
-        public string Path { get; set; }
-        public string Type { get; set; }
-        public Tasks taskId { get; set; }
+        public string Name { get; set; }
+        public enum Type
+        {
+            Image,
+            Video
+        }
+        public int TaskId { get; set; }
+        public Tasks Task { get; set; } = null!;
     }
 }
