@@ -1,4 +1,6 @@
-﻿namespace API.Data
+﻿using API.Migrations;
+
+namespace API.Data
 {
     public class AppDbContext : DbContext
     {
@@ -11,6 +13,6 @@
         public DbSet<API.Models.Tasks> Tasks { get; set; }
         public DbSet<API.Models.PicturesAndVideos> PicturesAndVideos { get; set; }
         public DbSet<API.Models.RefreshToken> RefreshTokens { get; set; }
-
+        public DbSet<API.Models.Users_Education> Users_Education { get; set; }
     }
 }

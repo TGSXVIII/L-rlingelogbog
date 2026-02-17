@@ -1,8 +1,7 @@
-﻿namespace API.Models
+namespace API.DTO
 {
-    public class Tasks
+    public class UpdateTaskDTO
     {
-        public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime Start_Date { get; set; }
@@ -13,8 +12,8 @@
             InProgress,
             Completed
         }
-        public EducationalStandarts educationStandartsId { get; set; }
-        public Users assignedTo { get; set; }
-        public Users createdBy { get; set; }
+        public int educationStandartsId { get; set; }
+        public int assignedToId { get; set; }
+        public int createdById { get; set; }
     }
 }
