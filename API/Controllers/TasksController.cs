@@ -101,6 +101,52 @@ namespace API.Controllers
             return Ok(task);
         }
 
+        [HttpGet("assigned")]
+        public async Task<ActionResult<List<TasksDto>>> GetAssignedTasks([FromQuery] int userId)
+        {
+            var tasks = await _context.Tasks
+                .Where(t => t.assignedToDTO.id == userId)
+                .Select(t => new TasksDto
+                {
+                    Id = t.Id,
+                    Title = t.Title,
+                    Description = t.Description,
+                    Start_Date = t.Start_Date,
+                    DueDate = t.DueDate,
+                    Status = t.Status,
+                    educationStandartsDTO = new GetEducationalStandartsDTO
+                    {
+                        Id = t.educationStandartsDTO.id,
+                        Title = t.educationStandartsDTO.Title,
+                        Description = t.educationStandartsDTO.Description,
+                        Number = t.educationStandartsDTO.Number,
+                        educationDTO = new GetEducationDTO
+                        {
+                            Id = t.educationStandartsDTO.educationDTO.id,
+                            Name = t.educationStandartsDTO.educationDTO.Name,
+                        }
+                    },
+                    assignedToDTO = new GetUserDTO
+                    {
+                        Id = t.assignedToDTO.id,
+                        Name = t.assignedToDTO.Name,
+                        Email = t.assignedToDTO.Email,
+                        Role = t.assignedToDTO.Role,
+                    },
+                    createdByDTO = new GetUserDTO
+                    {
+                        Id = t.createdByDTO.id,
+                        Name = t.createdByDTO.Name,
+                        Email = t.createdByDTO.Email,
+                        Role = t.createdByDTO.Role,
+                    },
+                })
+                .ToListAsync();
+
+            return Ok(tasks);
+        }
+
+
         [HttpGet]
         public async Task<ActionResult<List<TasksDto>>> GetAllWaiting([FromQuery] int userId)
         {
