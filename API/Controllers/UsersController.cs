@@ -1,3 +1,5 @@
+using System.Runtime.Serialization;
+
 namespace API.Controllers
 {
     [ApiController]
@@ -20,7 +22,7 @@ namespace API.Controllers
                 Id = u.Id,
                 Name = u.Name,
                 Email = u.Email,
-                Role = (int)u.Role
+                Role = u.Role
             }).ToList();
             return Ok(userDtos);
         }
@@ -39,7 +41,7 @@ namespace API.Controllers
                 Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
-                Role = (int)user.Role
+                Role = user.Role
             };
             return Ok(userDto);
         }
@@ -54,7 +56,7 @@ namespace API.Controllers
                 Username = dto.Username,
                 PasswordHash = dto.PasswordHash,
                 Email = dto.Email,
-                Role = (UserRole)dto.Role
+                Role = dto.Role
             };
 
             _context.Users.Add(user);
@@ -65,7 +67,7 @@ namespace API.Controllers
                 Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
-                Role =  (int)user.Role
+                Role =  user.Role
             };
 
             return CreatedAtAction(nameof(GetById), new { id = user.Id }, result);
@@ -83,7 +85,7 @@ namespace API.Controllers
 
             user.Name = dto.Name;
             user.Email = dto.Email;
-            user.Role = (UserRole)dto.Role;
+            user.Role = dto.Role;
 
             await _context.SaveChangesAsync();
 
