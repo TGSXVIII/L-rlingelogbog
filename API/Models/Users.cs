@@ -5,6 +5,7 @@
         Student = 0,
         Admin = 1
     }
+
     public class Users
     {
         public int Id { get; set; }
