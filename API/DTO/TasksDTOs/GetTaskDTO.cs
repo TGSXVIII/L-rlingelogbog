@@ -11,6 +11,7 @@ namespace API.DTO
         {
             Pending,
             InProgress,
+            waitingForReview,
             Completed
         }
         public GetEducationalStandartsDTO educationStandartsDTO { get; set; }
