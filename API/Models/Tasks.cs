@@ -1,5 +1,12 @@
 ﻿namespace API.Models
 {
+    public enum Status
+    {
+        Pending,
+        InProgress,
+        waitingForReview,
+        Completed
+    }
     public class Tasks
     {
         public int Id { get; set; }
@@ -7,13 +14,7 @@
         public string Description { get; set; }
         public DateTime Start_Date { get; set; }
         public DateTime DueDate { get; set; }
-        public enum Status
-        {
-            Pending,
-            InProgress,
-            waitingForReview,
-            Completed
-        }
+        public Status TaskStatus { get; set; }
         public int educationStandartsId { get; set; }
         public EducationalStandarts educationStandarts { get; set; }
         public int assignedToId { get; set; }
