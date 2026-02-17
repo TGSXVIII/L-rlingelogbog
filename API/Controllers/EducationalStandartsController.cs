@@ -57,6 +57,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Admin")]
         public async Task<ActionResult<EducationalStandardsDto>> Create(EducationalStandardsCreateDto dto)
         {
             if (!await _context.Educations.AnyAsync(e => e.Id == dto.EducationId))
@@ -84,6 +85,7 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, EducationalStandardsUpdateDto dto)
         {
             var entity = await _context.EducationalStandards.FindAsync(id);
@@ -103,6 +105,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var entity = await _context.EducationalStandards.FindAsync(id);

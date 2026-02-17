@@ -101,10 +101,61 @@ namespace API.Controllers
             return Ok(task);
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<TasksDto>>> GetAllWaiting([FromQuery] int userId)
+        {
+            return Ok(await _context.Tasks
+                .Where(t => t.createdByDTO.id == userId
+                            && t.Status == "waitingForReview")
+                .Select(t => new TasksDto
+                {
+                    Id = t.Id,
+                    Title = t.Title,
+                    Description = t.Description,
+                    Start_Date = t.Start_Date,
+                    DueDate = t.DueDate,
+                    Status = t.Status,
+                    educationStandartsDTO = new GetEducationalStandartsDTO
+                    {
+                        Id = t.educationStandartsDTO.id,
+                        Title = t.educationStandartsDTO.Title,
+                        Description = t.educationStandartsDTO.Description,
+                        Number = t.educationStandartsDTO.Number,
+                        educationDTO = new GetEducationDTO
+                        {
+                            Id = t.educationStandartsDTO.educationDTO.id,
+                            Name = t.educationStandartsDTO.educationDTO.Name,
+                        }
+                    },
+                    assignedToDTO = new GetUserDTO
+                    {
+                        Id = t.assignedToDTO.id,
+                        Name = t.assignedToDTO.Name,
+                        Email = t.assignedToDTO.Email,
+                        Role = t.assignedToDTO.Role,
+                    },
+                    createdByDTO = new GetUserDTO
+                    {
+                        Id = t.createdByDTO.id,
+                        Name = t.createdByDTO.Name,
+                        Email = t.createdByDTO.Email,
+                        Role = t.createdByDTO.Role,
+                    },
+                })
+                .ToListAsync());
+        }
+
+
         [HttpPost]
         public async Task<ActionResult<TasksDto>> Create(TasksCreateDto dto)
         {
-            //add check to make sure FKs exist
+            var educationStandard = await _context.EducationalStandards.FindAsync(dto.educationStandartsId);
+            var assignedUser = await _context.Users.FindAsync(dto.assignedTo);
+            var createdByUser = await _context.Users.FindAsync(dto.createdBy);
+
+            if (educationStandard == null || assignedUser == null || createdByUser == null)
+                return BadRequest("One or more referenced entities do not exist.");
+
             var entity = new Tasks
             {
                 Title = dto.Title,
@@ -137,7 +188,13 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, TasksUpdateDto dto)
         {
-            //add check to make sure FKs exist
+            var educationStandard = await _context.EducationalStandards.FindAsync(dto.educationStandartsId);
+            var assignedUser = await _context.Users.FindAsync(dto.assignedTo);
+            var createdByUser = await _context.Users.FindAsync(dto.createdBy);
+
+            if (educationStandard == null || assignedUser == null || createdByUser == null)
+                return BadRequest("One or more referenced entities do not exist.");
+
             var entity = await _context.Tasks.FindAsync(id);
             if (entity == null)
                 return NotFound();

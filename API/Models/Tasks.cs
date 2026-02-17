@@ -11,6 +11,7 @@
         {
             Pending,
             InProgress,
+            waitingForReview,
             Completed
         }
         public int educationStandartsId { get; set; }
