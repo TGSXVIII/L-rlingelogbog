@@ -1,12 +1,14 @@
+using System.Runtime.Serialization;
+
 namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly AppDbContext _context;
 
-        public UsersController(DataContext context)
+        public UsersController(AppDbContext context)
         {
             _context = context;
         }
@@ -14,7 +16,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetUserDTO>>> GetAll()
         {
-            var users = await _context.users.ToListAsync();
+            var users = await _context.Users.ToListAsync();
             var userDtos = users.Select(u => new GetUserDTO
             {
                 Id = u.Id,
@@ -29,7 +31,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<GetUserDTO>> GetById(int id)
         {
-            var user = await _context.users.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -57,7 +59,7 @@ namespace API.Controllers
                 Role = dto.Role
             };
 
-            _context.users.Add(user);
+            _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
             var result = new GetUserDTO
@@ -65,7 +67,7 @@ namespace API.Controllers
                 Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
-                Role = user.Role
+                Role =  user.Role
             };
 
             return CreatedAtAction(nameof(GetById), new { id = user.Id }, result);
@@ -75,7 +77,7 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UpdateUserDTO dto)
         {
-            var user = await _context.users.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -94,13 +96,13 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var user = await _context.users.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
 
-            _context.users.Remove(user);
+            _context.Users.Remove(user);
             await _context.SaveChangesAsync();
 
             return NoContent();

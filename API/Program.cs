@@ -1,31 +1,76 @@
-var builder = WebApplication.CreateBuilder(args);
+﻿var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
+// =======================
+// Services
+// =======================
+
+// Controllers
 builder.Services.AddControllers();
 
-// Add EF Core DbContext (Pomelo example)
+// EF Core (MariaDB)
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
-        new MySqlServerVersion(new Version(10, 11, 14)) // Replace with your MariaDB version
+        new MySqlServerVersion(new Version(10, 11, 14))
     )
 );
 
-// Add Swagger / OpenAPI
+// App services
+builder.Services.AddScoped<PasswordService>();
+builder.Services.AddScoped<JwtService>();
+
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(); // <- This enables Swagger
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using Bearer scheme",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
+    });
+});
+
+// =======================
+// JWT Authentication
+// =======================
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
+            ),
+
+            ClockSkew = TimeSpan.Zero // prevents token time drift bugs
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+// =======================
+// App Pipeline
+// =======================
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger(); // Serve generated Swagger JSON
-    app.UseSwaggerUI(c => // Serve Swagger UI
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-        c.RoutePrefix = string.Empty; // Swagger at app root: http://localhost:5000/
-    });
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseStaticFiles(new StaticFileOptions
@@ -37,6 +82,7 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();   // MUST be before Authorization
 app.UseAuthorization();
 
 app.MapControllers();
