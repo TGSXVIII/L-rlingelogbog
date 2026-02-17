@@ -1,7 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using API.Data;
-
 namespace API.Controllers
 {
     [ApiController]
@@ -24,7 +20,7 @@ namespace API.Controllers
                 Id = u.Id,
                 Name = u.Name,
                 Email = u.Email,
-                Role = u.Role
+                Role = (int)u.Role
             }).ToList();
             return Ok(userDtos);
         }
@@ -43,7 +39,7 @@ namespace API.Controllers
                 Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
-                Role = user.Role
+                Role = (int)user.Role
             };
             return Ok(userDto);
         }
@@ -58,7 +54,7 @@ namespace API.Controllers
                 Username = dto.Username,
                 PasswordHash = dto.PasswordHash,
                 Email = dto.Email,
-                Role = dto.Role
+                Role = (UserRole)dto.Role
             };
 
             _context.Users.Add(user);
@@ -69,7 +65,7 @@ namespace API.Controllers
                 Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
-                Role = user.Role
+                Role =  (int)user.Role
             };
 
             return CreatedAtAction(nameof(GetById), new { id = user.Id }, result);
@@ -87,7 +83,7 @@ namespace API.Controllers
 
             user.Name = dto.Name;
             user.Email = dto.Email;
-            user.Role = dto.Role;
+            user.Role = (UserRole)dto.Role;
 
             await _context.SaveChangesAsync();
 
