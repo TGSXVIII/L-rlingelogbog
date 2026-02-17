@@ -60,11 +60,45 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<GetPicturesAndVideosDTO>> Create(CreatePicturesAndVideosDTO dto)
+        [Consumes("multipart/form-data")]
+        public async Task<ActionResult<GetPicturesAndVideosDTO>> Create(
+            [FromForm] CreatePicturesAndVideosDTO dto)
         {
+            if (dto.File == null || dto.File.Length == 0)
+                return BadRequest("File is required");
+
+            // Validate file type
+            var allowedTypes = new[] { "image/", "video/" };
+            if (!allowedTypes.Any(t => dto.File.ContentType.StartsWith(t)))
+                return BadRequest("Only images and videos are allowed");
+
+            // Create uploads directory
+            if (dto.Type == "Image")
+            {
+                var uploadsRoot = Path.Combine(Directory.GetCurrentDirectory(), "images");
+                Directory.CreateDirectory(uploadsRoot);
+            }
+            else if (dto.Type == "Video")
+            {
+                var uploadsRoot = Path.Combine(Directory.GetCurrentDirectory(), "videos");
+                Directory.CreateDirectory(uploadsRoot);
+            }
+
+            // Generate safe filename
+            var extension = Path.GetExtension(dto.File.FileName);
+            var fileName = $"{Guid.NewGuid()}{extension}";
+            var filePath = Path.Combine(uploadsRoot, fileName);
+
+            // Save file to disk
+            await using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await dto.File.CopyToAsync(stream);
+            }
+
+            // Save DB record
             var item = new PicturesAndVideos
             {
-                Path = dto.Path,
+                Name = fileName,
                 Type = dto.Type,
                 TaskId = dto.TaskId
             };
@@ -79,5 +113,6 @@ namespace API.Controllers
                 Type = item.Type
             });
         }
+
     }
 }

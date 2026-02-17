@@ -5,6 +5,7 @@ global using Microsoft.AspNetCore.Authentication;
 global using Microsoft.IdentityModel.Tokens;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.OpenApi.Models;
 global using System.Security.Claims;
@@ -20,4 +21,3 @@ global using API.Services;
 global using API.Models;
 global using API.Data;
 global using API.DTO;
-

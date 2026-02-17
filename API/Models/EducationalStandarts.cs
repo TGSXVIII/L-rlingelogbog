@@ -6,6 +6,7 @@
         public string Title { get; set; }
         public string Description { get; set; }
         public string Number { get; set; }
-        public Education educationId { get; set; }
+        public int EducationId { get; set; }
+        public Education Education { get; set; }
     }
 }

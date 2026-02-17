@@ -4,7 +4,9 @@
     {
         public int Id { get; set; }
         public string Grade { get; set; }
-        public Users UserId { get; set; }
-        public Education educationId { get; set; }
+        public int UserId { get; set; }
+        public Users User { get; set; }
+        public int EducationId { get; set; }
+        public Education Education { get; set; }
     }
 }
