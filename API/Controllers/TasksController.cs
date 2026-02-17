@@ -12,10 +12,10 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<TasksDto>>> GetAll()
+        public async Task<ActionResult<List<GetTaskDTO>>> GetAll()
         {
             return Ok(await _context.Tasks
-                .Select(t => new TasksDto
+                .Select(t => new GetTaskDTO
                 {
                     Id = t.Id,
                     Title = t.Title,
@@ -54,11 +54,11 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TasksDto>> GetById(int id)
+        public async Task<ActionResult<GetTaskDTO>> GetById(int id)
         {
             var task = await _context.Tasks
                 .Where(t => t.Id == id)
-                .Select(t => new TasksDto
+                .Select(t => new GetTaskDTO
                 {
                     Id = t.Id,
                     Title = t.Title,
@@ -102,11 +102,11 @@ namespace API.Controllers
         }
 
         [HttpGet("assigned")]
-        public async Task<ActionResult<List<TasksDto>>> GetAssignedTasks([FromQuery] int userId)
+        public async Task<ActionResult<List<GetTaskDTO>>> GetAssignedTasks([FromQuery] int userId)
         {
             var tasks = await _context.Tasks
                 .Where(t => t.assignedToDTO.id == userId)
-                .Select(t => new TasksDto
+                .Select(t => new GetTaskDTO
                 {
                     Id = t.Id,
                     Title = t.Title,
@@ -148,12 +148,12 @@ namespace API.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<List<TasksDto>>> GetAllWaiting([FromQuery] int userId)
+        public async Task<ActionResult<List<GetTaskDTO>>> GetAllWaiting([FromQuery] int userId)
         {
             return Ok(await _context.Tasks
                 .Where(t => t.createdByDTO.id == userId
                             && t.Status == "waitingForReview")
-                .Select(t => new TasksDto
+                .Select(t => new GetTaskDTO
                 {
                     Id = t.Id,
                     Title = t.Title,
@@ -193,11 +193,11 @@ namespace API.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<TasksDto>> Create(TasksCreateDto dto)
+        public async Task<ActionResult<GetTaskDTO>> Create(CreateTaskDTO dto)
         {
             var educationStandard = await _context.EducationalStandards.FindAsync(dto.educationStandartsId);
-            var assignedUser = await _context.Users.FindAsync(dto.assignedTo);
-            var createdByUser = await _context.Users.FindAsync(dto.createdBy);
+            var assignedUser = await _context.Users.FindAsync(dto.assignedToId);
+            var createdByUser = await _context.Users.FindAsync(dto.createdById);
 
             if (educationStandard == null || assignedUser == null || createdByUser == null)
                 return BadRequest("One or more referenced entities do not exist.");
@@ -217,7 +217,7 @@ namespace API.Controllers
             _context.Tasks.Add(entity);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetById), new { id = entity.Id }, new TasksDto
+            return CreatedAtAction(nameof(GetById), new { id = entity.Id }, new GetTaskDTO
             {
                 Id = entity.Id,
                 Title = entity.Title,
@@ -232,11 +232,11 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, TasksUpdateDto dto)
+        public async Task<IActionResult> Update(int id, UpdateTaskDTO dto)
         {
             var educationStandard = await _context.EducationalStandards.FindAsync(dto.educationStandartsId);
-            var assignedUser = await _context.Users.FindAsync(dto.assignedTo);
-            var createdByUser = await _context.Users.FindAsync(dto.createdBy);
+            var assignedUser = await _context.Users.FindAsync(dto.assignedToId);
+            var createdByUser = await _context.Users.FindAsync(dto.createdById);
 
             if (educationStandard == null || assignedUser == null || createdByUser == null)
                 return BadRequest("One or more referenced entities do not exist.");
