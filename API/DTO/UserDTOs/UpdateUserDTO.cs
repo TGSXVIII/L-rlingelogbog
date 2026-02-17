@@ -4,6 +4,6 @@ namespace API.DTO
     {
         public string Name { get; set; }
         public string Email { get; set; }
-        public int Role { get; set; }
+        public UserRole Role { get; set; }
     }
 }
