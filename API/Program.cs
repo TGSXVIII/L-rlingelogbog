@@ -82,7 +82,7 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();   // MUST be before Authorization
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

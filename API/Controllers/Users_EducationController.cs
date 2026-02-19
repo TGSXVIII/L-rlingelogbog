@@ -21,17 +21,15 @@ namespace API.Controllers
                     Grade = ue.Grade,
                     UserDTO = new GetUserDTO
                     {
-                        Id = ue.GetUserDTO.Id,
-                        Name = ue.GetUserDTO.Name,
-                        Email = ue.GetUserDTO.Email,
-                        Role = ue.GetUserDTO.Role
+                        Id = ue.Id,
+                        Name = ue.User.Name,
+                        Email = ue.User.Email,
+                        Role = ue.User.Role
                     },
                     educationDTO = new GetEducationDTO
                     {
-                        Id = ue.EducationDTO.Id,
-                        Degree = ue.EducationDTO.Degree,
-                        Institution = ue.EducationDTO.Institution,
-                        YearOfCompletion = ue.EducationDTO.YearOfCompletion
+                        Id = ue.Education.Id,
+                        Name = ue.Education.Name
                     }
 
                 })
@@ -49,17 +47,15 @@ namespace API.Controllers
                     Grade = ue.Grade,
                     UserDTO = new GetUserDTO
                     {
-                        Id = ue.GetUserDTO.Id,
-                        Name = ue.GetUserDTO.Name,
-                        Email = ue.GetUserDTO.Email,
-                        Role = ue.GetUserDTO.Role
+                        Id = ue.User.Id,
+                        Name = ue.User.Name,
+                        Email = ue.User.Email,
+                        Role = ue.User.Role
                     },
                     educationDTO = new GetEducationDTO
                     {
-                        Id = ue.EducationDTO.Id,
-                        Degree = ue.EducationDTO.Degree,
-                        Institution = ue.EducationDTO.Institution,
-                        YearOfCompletion = ue.EducationDTO.YearOfCompletion
+                        Id = ue.Education.Id,
+                        Name = ue.Education.Name
                     }
 
                 })
@@ -90,17 +86,15 @@ namespace API.Controllers
                 Grade = entity.Grade,
                 UserDTO = new GetUserDTO
                 {
-                    Id = entity.GetUserDTO.Id,
-                    Name = entity.GetUserDTO.Name,
-                    Email = entity.GetUserDTO.Email,
-                    Role = entity.GetUserDTO.Role
+                    Id = entity.User.Id,
+                    Name = entity.User.Name,
+                    Email = entity.User.Email,
+                    Role = entity.User.Role
                 },
                 educationDTO = new GetEducationDTO
                 {
-                    Id = entity.EducationDTO.Id,
-                    Degree = entity.EducationDTO.Degree,
-                    Institution = entity.EducationDTO.Institution,
-                    YearOfCompletion = entity.EducationDTO.YearOfCompletion
+                    Id = entity.Education.Id,
+                    Name = entity.Education.Name
                 }
             });
         }

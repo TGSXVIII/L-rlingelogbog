@@ -22,32 +22,32 @@ namespace API.Controllers
                     Description = t.Description,
                     Start_Date = t.Start_Date,
                     DueDate = t.DueDate,
-                    Status = t.Status,
+                    TaskStatus = t.TaskStatus,
                     educationStandartsDTO = new GetEducationalStandartsDTO
                     {
-                        Id = t.educationStandartsDTO.id,
-                        Title = t.educationStandartsDTO.Title,
-                        Description = t.educationStandartsDTO.Description,
-                        Number = t.educationStandartsDTO.Number,
+                        Id = t.educationStandarts.Id,
+                        Title = t.educationStandarts.Title,
+                        Description = t.educationStandarts.Description,
+                        Number = t.educationStandarts.Number,
                         educationDTO = new GetEducationDTO
                         {
-                            Id = t.educationStandartsDTO.educationDTO.id,
-                            Name = t.educationStandartsDTO.educationDTO.Name,
+                            Id = t.educationStandarts.Education.Id,
+                            Name = t.educationStandarts.Education.Name,
                         }
                     },
                     assignedToDTO = new GetUserDTO
                     {
-                        Id = t.assignedToDTO.id,
-                        Name = t.assignedToDTO.Name,
-                        Email = t.assignedToDTO.Email,
-                        Role = t.assignedToDTO.Role,
+                        Id = t.assignedToId,
+                        Name = t.assignedTo.Name,
+                        Email = t.assignedTo.Email,
+                        Role = t.assignedTo.Role,
                     },
                     createdByDTO = new GetUserDTO
                     {
-                        Id = t.createdByDTO.id,
-                        Name = t.createdByDTO.Name,
-                        Email = t.createdByDTO.Email,
-                        Role = t.createdByDTO.Role,
+                        Id = t.createdById,
+                        Name = t.createdBy.Name,
+                        Email = t.createdBy.Email,
+                        Role = t.createdBy.Role,
                     },
                 })
                 .ToListAsync());
@@ -65,32 +65,32 @@ namespace API.Controllers
                     Description = t.Description,
                     Start_Date = t.Start_Date,
                     DueDate = t.DueDate,
-                    Status = t.Status,
+                    TaskStatus = t.TaskStatus,
                     educationStandartsDTO = new GetEducationalStandartsDTO
                     {
-                        Id = t.educationStandartsDTO.id,
-                        Title = t.educationStandartsDTO.Title,
-                        Description = t.educationStandartsDTO.Description,
-                        Number = t.educationStandartsDTO.Number,
+                        Id = t.educationStandartsId,
+                        Title = t.educationStandarts.Title,
+                        Description = t.educationStandarts.Description,
+                        Number = t.educationStandarts.Number,
                         educationDTO = new GetEducationDTO
                         {
-                            Id = t.educationStandartsDTO.educationDTO.id,
-                            Name = t.educationStandartsDTO.educationDTO.Name,
+                            Id = t.educationStandarts.Education.Id,
+                            Name = t.educationStandarts.Education.Name,
                         }
                     },
                     assignedToDTO = new GetUserDTO
                     {
-                        Id = t.assignedToDTO.id,
-                        Name = t.assignedToDTO.Name,
-                        Email = t.assignedToDTO.Email,
-                        Role = t.assignedToDTO.Role,
+                        Id = t.assignedToId,
+                        Name = t.assignedTo.Name,
+                        Email = t.assignedTo.Email,
+                        Role = t.assignedTo.Role,
                     },
                     createdByDTO = new GetUserDTO
                     {
-                        Id = t.createdByDTO.id,
-                        Name = t.createdByDTO.Name,
-                        Email = t.createdByDTO.Email,
-                        Role = t.createdByDTO.Role,
+                        Id = t.createdById,
+                        Name = t.createdBy.Name,
+                        Email = t.createdBy.Email,
+                        Role = t.createdBy.Role,
                     },
                 })
                 .FirstOrDefaultAsync();
@@ -105,7 +105,7 @@ namespace API.Controllers
         public async Task<ActionResult<List<GetTaskDTO>>> GetAssignedTasks([FromQuery] int userId)
         {
             var tasks = await _context.Tasks
-                .Where(t => t.assignedToDTO.id == userId)
+                .Where(t => t.assignedTo.Id == userId)
                 .Select(t => new GetTaskDTO
                 {
                     Id = t.Id,
@@ -113,32 +113,32 @@ namespace API.Controllers
                     Description = t.Description,
                     Start_Date = t.Start_Date,
                     DueDate = t.DueDate,
-                    Status = t.Status,
+                    TaskStatus = t.TaskStatus,
                     educationStandartsDTO = new GetEducationalStandartsDTO
                     {
-                        Id = t.educationStandartsDTO.id,
-                        Title = t.educationStandartsDTO.Title,
-                        Description = t.educationStandartsDTO.Description,
-                        Number = t.educationStandartsDTO.Number,
+                        Id = t.educationStandarts.Id,
+                        Title = t.educationStandarts.Title,
+                        Description = t.educationStandarts.Description,
+                        Number = t.educationStandarts.Number,
                         educationDTO = new GetEducationDTO
                         {
-                            Id = t.educationStandartsDTO.educationDTO.id,
-                            Name = t.educationStandartsDTO.educationDTO.Name,
+                            Id = t.educationStandarts.Education.Id,
+                            Name = t.educationStandarts.Education.Name,
                         }
                     },
                     assignedToDTO = new GetUserDTO
                     {
-                        Id = t.assignedToDTO.id,
-                        Name = t.assignedToDTO.Name,
-                        Email = t.assignedToDTO.Email,
-                        Role = t.assignedToDTO.Role,
+                        Id = t.assignedTo.Id,
+                        Name = t.assignedTo.Name,
+                        Email = t.assignedTo.Email,
+                        Role = t.assignedTo.Role,
                     },
                     createdByDTO = new GetUserDTO
                     {
-                        Id = t.createdByDTO.id,
-                        Name = t.createdByDTO.Name,
-                        Email = t.createdByDTO.Email,
-                        Role = t.createdByDTO.Role,
+                        Id = t.createdBy.Id,
+                        Name = t.createdBy.Name,
+                        Email = t.createdBy.Email,
+                        Role = t.createdBy.Role,
                     },
                 })
                 .ToListAsync();
@@ -151,8 +151,8 @@ namespace API.Controllers
         public async Task<ActionResult<List<GetTaskDTO>>> GetAllWaiting([FromQuery] int userId)
         {
             return Ok(await _context.Tasks
-                .Where(t => t.createdByDTO.id == userId
-                            && t.Status == "waitingForReview")
+                .Where(t => t.createdBy.Id == userId
+                            && t.TaskStatus.ToString() == "waitingForReview")
                 .Select(t => new GetTaskDTO
                 {
                     Id = t.Id,
@@ -160,32 +160,32 @@ namespace API.Controllers
                     Description = t.Description,
                     Start_Date = t.Start_Date,
                     DueDate = t.DueDate,
-                    Status = t.Status,
+                    TaskStatus = t.TaskStatus,
                     educationStandartsDTO = new GetEducationalStandartsDTO
                     {
-                        Id = t.educationStandartsDTO.id,
-                        Title = t.educationStandartsDTO.Title,
-                        Description = t.educationStandartsDTO.Description,
-                        Number = t.educationStandartsDTO.Number,
+                        Id = t.educationStandarts.Id,
+                        Title = t.educationStandarts.Title,
+                        Description = t.educationStandarts.Description,
+                        Number = t.educationStandarts.Number,
                         educationDTO = new GetEducationDTO
                         {
-                            Id = t.educationStandartsDTO.educationDTO.id,
-                            Name = t.educationStandartsDTO.educationDTO.Name,
+                            Id = t.educationStandarts.Education.Id,
+                            Name = t.educationStandarts.Education.Name,
                         }
                     },
                     assignedToDTO = new GetUserDTO
                     {
-                        Id = t.assignedToDTO.id,
-                        Name = t.assignedToDTO.Name,
-                        Email = t.assignedToDTO.Email,
-                        Role = t.assignedToDTO.Role,
+                        Id = t.assignedTo.Id,
+                        Name = t.assignedTo.Name,
+                        Email = t.assignedTo.Email,
+                        Role = t.assignedTo.Role,
                     },
                     createdByDTO = new GetUserDTO
                     {
-                        Id = t.createdByDTO.id,
-                        Name = t.createdByDTO.Name,
-                        Email = t.createdByDTO.Email,
-                        Role = t.createdByDTO.Role,
+                        Id = t.createdBy.Id,
+                        Name = t.createdBy.Name,
+                        Email = t.createdBy.Email,
+                        Role = t.createdBy.Role,
                     },
                 })
                 .ToListAsync());
@@ -195,7 +195,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<GetTaskDTO>> Create(CreateTaskDTO dto)
         {
-            var educationStandard = await _context.EducationalStandards.FindAsync(dto.educationStandartsId);
+            var educationStandard = await _context.EducationalStandarts.FindAsync(dto.educationStandartsId);
             var assignedUser = await _context.Users.FindAsync(dto.assignedToId);
             var createdByUser = await _context.Users.FindAsync(dto.createdById);
 
@@ -208,10 +208,10 @@ namespace API.Controllers
                 Description = dto.Description,
                 Start_Date = dto.Start_Date,
                 DueDate = dto.DueDate,
-                Status = Tasks.Status.Pending,
+                TaskStatus = Status.Pending,
                 educationStandartsId = dto.educationStandartsId,
-                assignedTo = dto.assignedTo,
-                createdBy = dto.createdBy,
+                assignedToId = dto.assignedToId,
+                createdById = dto.createdById,
             };
 
             _context.Tasks.Add(entity);
@@ -224,17 +224,40 @@ namespace API.Controllers
                 Description = entity.Description,
                 Start_Date = entity.Start_Date,
                 DueDate = entity.DueDate,
-                Status = Tasks.Status.Pending,
-                educationStandartsId = entity.educationStandartsId,
-                assignedTo = entity.assignedTo,
-                createdBy = entity.createdBy,
+                TaskStatus = Status.Pending,
+                educationStandartsDTO =  new GetEducationalStandartsDTO
+                {
+                    Id = entity.educationStandarts.Id,
+                    Title = entity.educationStandarts.Title,
+                    Description = entity.educationStandarts.Description,
+                    Number = entity.educationStandarts.Number,
+                    educationDTO = new GetEducationDTO
+                    {
+                        Id = entity.educationStandarts.Education.Id,
+                        Name = entity.educationStandarts.Education.Name,
+                    }
+                },
+                assignedToDTO = new GetUserDTO
+                {
+                    Id = entity.assignedTo.Id,
+                    Name = entity.assignedTo.Name,
+                    Email = entity.assignedTo.Email,
+                    Role = entity.assignedTo.Role,
+                },
+                createdByDTO = new GetUserDTO
+                {
+                    Id = entity.createdBy.Id,
+                    Name = entity.createdBy.Name,
+                    Email = entity.createdBy.Email,
+                    Role = entity.createdBy.Role,
+                }
             });
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UpdateTaskDTO dto)
         {
-            var educationStandard = await _context.EducationalStandards.FindAsync(dto.educationStandartsId);
+            var educationStandard = await _context.EducationalStandarts.FindAsync(dto.educationStandartsId);
             var assignedUser = await _context.Users.FindAsync(dto.assignedToId);
             var createdByUser = await _context.Users.FindAsync(dto.createdById);
 
@@ -249,10 +272,10 @@ namespace API.Controllers
             entity.Description = dto.Description;
             entity.Start_Date = dto.Start_Date;
             entity.DueDate = dto.DueDate;
-            entity.Status = dto.Status;
+            entity.TaskStatus = dto.TaskStatus;
             entity.educationStandartsId = dto.educationStandartsId;
-            entity.assignedTo = dto.assignedTo;
-            entity.createdBy = dto.createdBy;
+            entity.assignedTo = assignedUser;
+            entity.createdBy = createdByUser;
 
             await _context.SaveChangesAsync();
             return NoContent();

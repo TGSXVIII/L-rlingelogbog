@@ -20,7 +20,7 @@ namespace API.Controllers
                 .Select(p => new GetPicturesAndVideosDTO
                 {
                     Id = p.Id,
-                    Path = p.Path,
+                    Name = p.Name,
                     Type = p.Type,
                 })
                 .ToListAsync());
@@ -34,7 +34,7 @@ namespace API.Controllers
                 .Select(p => new GetPicturesAndVideosDTO
                 {
                     Id = p.Id,
-                    Path = p.Path,
+                    Name = p.Name,
                     Type = p.Type
                 })
                 .FirstOrDefaultAsync();
@@ -53,66 +53,66 @@ namespace API.Controllers
                 {
                     //need to change when we know where the files are stored
                     Id = p.Id,
-                    Path = p.Path,
+                    Name = p.Name,
                     Type = p.Type
                 })
                 .ToListAsync());
         }
 
-        [HttpPost]
-        [Consumes("multipart/form-data")]
-        public async Task<ActionResult<GetPicturesAndVideosDTO>> Create(
-            [FromForm] CreatePicturesAndVideosDTO dto)
-        {
-            if (dto.File == null || dto.File.Length == 0)
-                return BadRequest("File is required");
+        //[HttpPost]
+        //[Consumes("multipart/form-data")]
+        //public async Task<ActionResult<GetPicturesAndVideosDTO>> Create(
+        //    [FromForm] CreatePicturesAndVideosDTO dto)
+        //{
+        //    if (dto.File == null || dto.File.Length == 0)
+        //        return BadRequest("File is required");
 
-            // Validate file type
-            var allowedTypes = new[] { "image/", "video/" };
-            if (!allowedTypes.Any(t => dto.File.ContentType.StartsWith(t)))
-                return BadRequest("Only images and videos are allowed");
+        //    // Validate file type
+        //    var allowedTypes = new[] { "image/", "video/" };
+        //    if (!allowedTypes.Any(t => dto.File.ContentType.StartsWith(t)))
+        //        return BadRequest("Only images and videos are allowed");
 
-            // Create uploads directory
-            if (dto.Type == "Image")
-            {
-                var uploadsRoot = Path.Combine(Directory.GetCurrentDirectory(), "images");
-                Directory.CreateDirectory(uploadsRoot);
-            }
-            else if (dto.Type == "Video")
-            {
-                var uploadsRoot = Path.Combine(Directory.GetCurrentDirectory(), "videos");
-                Directory.CreateDirectory(uploadsRoot);
-            }
+        //    // Create uploads directory
+        //    if (dto.Type.ToString() == "Image")
+        //    {
+        //        var uploadsRoot = Name.Combine(Directory.GetCurrentDirectory(), "images");
+        //        Directory.CreateDirectory(uploadsRoot);
+        //    }
+        //    else if (dto.Type.ToString() == "Video")
+        //    {
+        //        var uploadsRoot = Name.Combine(Directory.GetCurrentDirectory(), "videos");
+        //        Directory.CreateDirectory(uploadsRoot);
+        //    }
 
-            // Generate safe filename
-            var extension = Path.GetExtension(dto.File.FileName);
-            var fileName = $"{Guid.NewGuid()}{extension}";
-            var filePath = Path.Combine(uploadsRoot, fileName);
+        //    // Generate safe filename
+        //    var extension = Name.GetExtension(dto.File.FileName);
+        //    var fileName = $"{Guid.NewGuid()}{extension}";
+        //    var fileName = Name.Combine(uploadsRoot, fileName);
 
-            // Save file to disk
-            await using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await dto.File.CopyToAsync(stream);
-            }
+        //    // Save file to disk
+        //    await using (var stream = new FileStream(fileName, FileMode.Create))
+        //    {
+        //        await dto.File.CopyToAsync(stream);
+        //    }
 
-            // Save DB record
-            var item = new PicturesAndVideos
-            {
-                Name = fileName,
-                Type = dto.Type,
-                TaskId = dto.TaskId
-            };
+        //    // Save DB record
+        //    var item = new PicturesAndVideos
+        //    {
+        //        Name = fileName,
+        //        Type = dto.Type,
+        //        TaskId = dto.TaskId
+        //    };
 
-            _context.PicturesAndVideos.Add(item);
-            await _context.SaveChangesAsync();
+        //    _context.PicturesAndVideos.Add(item);
+        //    await _context.SaveChangesAsync();
 
-            return Ok(new GetPicturesAndVideosDTO
-            {
-                Id = item.Id,
-                Path = item.Path,
-                Type = item.Type
-            });
-        }
+        //    return Ok(new GetPicturesAndVideosDTO
+        //    {
+        //        Id = item.Id,
+        //        Name = item.Name,
+        //        Type = item.Type
+        //    });
+        //}
 
     }
 }

@@ -1,3 +1,5 @@
+using API.DTO;
+
 namespace API.Controllers
 {
     [ApiController]
@@ -12,41 +14,40 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<EducationalStandardsDto>>> GetAll()
+        public async Task<ActionResult<List<GetEducationalStandartsDTO>>> GetAll()
         {
-            return Ok(await _context.EducationalStandards
-                .Select(es => new EducationalStandardsDto
+            return Ok(await _context.EducationalStandarts
+                .Select(es => new GetEducationalStandartsDTO
                 {
                     Id = es.Id,
-                    Title = es.title,
+                    Title = es.Title,
                     Description = es.Description,
                     Number = es.Number,
-                    Education = new GetEducationDto
+                    educationDTO = new GetEducationDTO
                     {
                         Id = es.Education.Id,
                         Name = es.Education.Name
-                    },
-
+                    }
                 })
                 .ToListAsync());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<EducationalStandardsDto>> GetById(int id)
+        public async Task<ActionResult<GetEducationalStandartsDTO>> GetById(int id)
         {
-            var item = await _context.EducationalStandards
-                .Where(es => e.Id == id)
-                .Select(es => new EducationalStandardsDto
+            var item = await _context.EducationalStandarts
+                .Where(es => es.Id == id)
+                .Select(es => new GetEducationalStandartsDTO
                 {
                     Id = es.Id,
-                    Title = es.title,
+                    Title = es.Title,
                     Description = es.Description,
                     Number = es.Number,
-                    Education = new GetEducationDto
+                    educationDTO = new GetEducationDTO
                     {
                         Id = es.Education.Id,
                         Name = es.Education.Name
-                    },
+                    }
                 })
                 .FirstOrDefaultAsync();
 
@@ -58,47 +59,51 @@ namespace API.Controllers
 
         [HttpPost]
         [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Admin")]
-        public async Task<ActionResult<EducationalStandardsDto>> Create(EducationalStandardsCreateDto dto)
+        public async Task<ActionResult<GetEducationalStandartsDTO>> Create(CreateEducationalStandartsDTO dto)
         {
-            if (!await _context.Educations.AnyAsync(e => e.Id == dto.EducationId))
+            if (!await _context.Educations.AnyAsync(e => e.Id == dto.educationId))
                 return BadRequest("Education does not exist");
 
-            var entity = new EducationalStandards
+            var entity = new EducationalStandarts
             {
-                Title = dto.title,
+                Title = dto.Title,
                 Description = dto.Description,
                 Number = dto.Number,
-                educationId = dto.educationId
+                EducationId = dto.educationId
             };
 
-            _context.EducationalStandards.Add(entity);
+            _context.EducationalStandarts.Add(entity);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetById), new { id = entity.Id }, new EducationalStandardsDto
+            return CreatedAtAction(nameof(GetById), new { id = entity.Id }, new GetEducationalStandartsDTO
             {
                 Id = entity.Id,
-                Title = entity.title,
+                Title = entity.Title,
                 Description = entity.Description,
                 Number = entity.Number,
-                educationId = entity.educationId
+                educationDTO = new GetEducationDTO
+                {
+                    Id = dto.educationId,
+                    Name = (await _context.Educations.FindAsync(dto.educationId)).Name
+                }
             });
         }
 
         [HttpPut("{id}")]
         [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Update(int id, EducationalStandardsUpdateDto dto)
+        public async Task<IActionResult> Update(int id, UpdateEducationalStandartsDTO dto)
         {
-            var entity = await _context.EducationalStandards.FindAsync(id);
+            var entity = await _context.EducationalStandarts.FindAsync(id);
             if (entity == null)
                 return NotFound();
 
-            if (!await _context.Educations.AnyAsync(e => e.Id == dto.EducationId))
+            if (!await _context.Educations.AnyAsync(e => e.Id == dto.educationId))
                 return BadRequest("Education does not exist");
 
-            entity.Title = dto.title;
+            entity.Title = dto.Title;
             entity.Description = dto.Description;
             entity.Number = dto.Number;
-            entity.educationId = dto.educationId;
+            entity.EducationId = dto.educationId;
 
             await _context.SaveChangesAsync();
             return NoContent();
@@ -108,11 +113,11 @@ namespace API.Controllers
         [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
-            var entity = await _context.EducationalStandards.FindAsync(id);
+            var entity = await _context.EducationalStandarts.FindAsync(id);
             if (entity == null)
                 return NotFound();
 
-            _context.EducationalStandards.Remove(entity);
+            _context.EducationalStandarts.Remove(entity);
             await _context.SaveChangesAsync();
             return NoContent();
         }

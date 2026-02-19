@@ -2,6 +2,7 @@
 global using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Authentication;
+global using Microsoft.Extensions.FileProviders;
 global using Microsoft.IdentityModel.Tokens;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Identity;
