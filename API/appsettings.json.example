@@ -8,6 +8,8 @@
   "AllowedHosts": "*",
   "ConnectionStrings": {
     "DefaultConnection": "Server=<SERVER_IP>;Port=3306;Database=team_db;User=team_user;Password=strongpassword;"
+  },
+  "FileStorage": {
+    "UploadPath": "\\\\<SERVER_IP>\\shared\\uploads"
   }
 }
-S
