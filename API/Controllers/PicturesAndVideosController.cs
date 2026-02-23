@@ -1,3 +1,5 @@
+using System.Configuration;
+
 namespace API.Controllers
 {
 
@@ -7,10 +9,11 @@ namespace API.Controllers
     public class PicturesAndVideosController : ControllerBase
     {
         private readonly AppDbContext _context;
-
-        public PicturesAndVideosController(AppDbContext context)
+        private readonly IConfiguration _configuration;
+        public PicturesAndVideosController(AppDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -59,60 +62,79 @@ namespace API.Controllers
                 .ToListAsync());
         }
 
-        //[HttpPost]
-        //[Consumes("multipart/form-data")]
-        //public async Task<ActionResult<GetPicturesAndVideosDTO>> Create(
-        //    [FromForm] CreatePicturesAndVideosDTO dto)
-        //{
-        //    if (dto.File == null || dto.File.Length == 0)
-        //        return BadRequest("File is required");
+        [HttpPost]
+        [Consumes("multipart/form-data")]
+        public async Task<ActionResult<GetPicturesAndVideosDTO>> Create(
+        [FromForm] CreatePicturesAndVideosDTO dto)
+        {
+            if (dto.File == null || dto.File.Length == 0)
+                return BadRequest("File is required");
 
-        //    // Validate file type
-        //    var allowedTypes = new[] { "image/", "video/" };
-        //    if (!allowedTypes.Any(t => dto.File.ContentType.StartsWith(t)))
-        //        return BadRequest("Only images and videos are allowed");
+            // Validate file type
+            var allowedTypes = new[] { "image/", "video/" };
+            if (!allowedTypes.Any(t => dto.File.ContentType.StartsWith(t)))
+                return BadRequest("Only images and videos are allowed");
 
-        //    // Create uploads directory
-        //    if (dto.Type.ToString() == "Image")
-        //    {
-        //        var uploadsRoot = Name.Combine(Directory.GetCurrentDirectory(), "images");
-        //        Directory.CreateDirectory(uploadsRoot);
-        //    }
-        //    else if (dto.Type.ToString() == "Video")
-        //    {
-        //        var uploadsRoot = Name.Combine(Directory.GetCurrentDirectory(), "videos");
-        //        Directory.CreateDirectory(uploadsRoot);
-        //    }
+            // Create uploads directory
+            string subFolder;
 
-        //    // Generate safe filename
-        //    var extension = Name.GetExtension(dto.File.FileName);
-        //    var fileName = $"{Guid.NewGuid()}{extension}";
-        //    var fileName = Name.Combine(uploadsRoot, fileName);
+            if (dto.File.ContentType.StartsWith("image/"))
+            {
+                subFolder = "images";
+            }
+            else if (dto.File.ContentType.StartsWith("video/"))
+            {
+                subFolder = "videos";
+            }
+            else
+            {
+                return BadRequest("Unsupported file type");
+            }
 
-        //    // Save file to disk
-        //    await using (var stream = new FileStream(fileName, FileMode.Create))
-        //    {
-        //        await dto.File.CopyToAsync(stream);
-        //    }
+            // Build full folder path
+            var uploadsRoot = _configuration["FileStorage:UploadPath"];
 
-        //    // Save DB record
-        //    var item = new PicturesAndVideos
-        //    {
-        //        Name = fileName,
-        //        Type = dto.Type,
-        //        TaskId = dto.TaskId
-        //    };
+            if (string.IsNullOrEmpty(uploadsRoot))
+                return StatusCode(500, "Upload path not configured.");
 
-        //    _context.PicturesAndVideos.Add(item);
-        //    await _context.SaveChangesAsync();
+            var finalFolderPath = Path.Combine(uploadsRoot, subFolder);
 
-        //    return Ok(new GetPicturesAndVideosDTO
-        //    {
-        //        Id = item.Id,
-        //        Name = item.Name,
-        //        Type = item.Type
-        //    });
-        //}
+            // Create directory
+            Directory.CreateDirectory(finalFolderPath);
+
+            // Generate safe filename
+            var extension = Path.GetExtension(dto.File.FileName);
+            var safeFileName = $"{Guid.NewGuid()}{extension}";
+            var filePath = Path.Combine(finalFolderPath, safeFileName);
+
+            // Save uploads file to remote server
+            await using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await dto.File.CopyToAsync(stream);
+            }
+
+            // Save DB record
+            var relativePath = $"{subFolder}/{safeFileName}";
+
+            var item = new PicturesAndVideos
+            {
+                Name = safeFileName,
+                Type = dto.Type,
+                TaskId = dto.taskId
+            };
+
+            _context.PicturesAndVideos.Add(item);
+            await _context.SaveChangesAsync();
+
+            var publicUrl = $"/uploads/{subFolder}/{safeFileName}";
+
+            return Ok(new GetPicturesAndVideosDTO
+            {
+                Id = item.Id,
+                Name = publicUrl,
+                Type = item.Type
+            });
+        }
 
     }
 }
