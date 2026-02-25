@@ -6,7 +6,6 @@ namespace API.DTO
         public string Description { get; set; }
         public DateTime Start_Date { get; set; }
         public DateTime DueDate { get; set; }
-        public int educationStandartsId { get; set; }
         public int assignedToId { get; set; }
         public int createdById { get; set; }
     }
