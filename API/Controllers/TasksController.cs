@@ -265,16 +265,18 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UpdateTaskDTO dto)
         {
-            var educationStandard = await _context.EducationalStandarts.FindAsync(dto);
+            var entity = await _context.Tasks
+                .Include(t => t.Tasks_EducationalStandarts)
+                .FirstOrDefaultAsync(t => t.Id == id);
+
+            if (entity == null)
+                return NotFound();
+
             var assignedUser = await _context.Users.FindAsync(dto.assignedToId);
             var createdByUser = await _context.Users.FindAsync(dto.createdById);
 
-            if (educationStandard == null || assignedUser == null || createdByUser == null)
-                return BadRequest("One or more referenced entities do not exist.");
-
-            var entity = await _context.Tasks.FindAsync(id);
-            if (entity == null)
-                return NotFound();
+            if (assignedUser == null || createdByUser == null)
+                return BadRequest("Assigned or CreatedBy user does not exist.");
 
             entity.Title = dto.Title;
             entity.Description = dto.Description;
@@ -283,6 +285,39 @@ namespace API.Controllers
             entity.TaskStatus = dto.TaskStatus;
             entity.assignedTo = assignedUser;
             entity.createdBy = createdByUser;
+
+            //Remove
+            if (dto.RemoveEducationalStandarts.Any())
+            {
+                var toRemove = entity.Tasks_EducationalStandarts
+                    .Where(te => dto.RemoveEducationalStandarts
+                        .Contains(te.EducationalStandartId))
+                    .ToList();
+
+                _context.Tasks_EducationalStandarts.RemoveRange(toRemove);
+            }
+
+            //Add
+            if (dto.AddEducationalStandartsId.Any())
+            {
+                var existingIds = entity.Tasks_EducationalStandarts
+                    .Select(te => te.EducationalStandartId)
+                    .ToList();
+
+                var newIds = dto.AddEducationalStandartsId
+                    .Where(id => !existingIds.Contains(id))
+                    .ToList();
+
+                foreach (var standardId in newIds)
+                {
+                    entity.Tasks_EducationalStandarts.Add(
+                        new Tasks_EducationalStandarts
+                        {
+                            TaskId = entity.Id,
+                            EducationalStandartId = standardId
+                        });
+                }
+            }
 
             await _context.SaveChangesAsync();
             return NoContent();
