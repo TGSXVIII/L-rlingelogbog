@@ -10,5 +10,6 @@ namespace API.DTO
         public Status TaskStatus { get; set; }
         public GetUserDTO assignedToDTO { get; set; }
         public GetUserDTO createdByDTO { get; set; }
+        public List<GetEducationalStandartsDTO> EducationalStandarts { get; set; } = new List<GetEducationalStandartsDTO>();
     }
 }

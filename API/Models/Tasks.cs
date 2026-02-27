@@ -21,5 +21,7 @@
         public Users createdBy { get; set; }
         public ICollection<PicturesAndVideos> PicturesAndVideos { get; set; }
         = new List<PicturesAndVideos>();
+        public ICollection<Tasks_EducationalStandarts> Tasks_EducationalStandarts { get; set; } 
+        = new List<Tasks_EducationalStandarts>();
     }
 }

@@ -4,4 +4,3 @@
         public GetTaskDTO Task { get; set; }
         public GetEducationalStandartsDTO EducationalStandart { get; set; }
     }
-}

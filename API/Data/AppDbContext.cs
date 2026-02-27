@@ -14,5 +14,6 @@ namespace API.Data
         public DbSet<API.Models.PicturesAndVideos> PicturesAndVideos { get; set; }
         public DbSet<API.Models.RefreshToken> RefreshTokens { get; set; }
         public DbSet<API.Models.Users_Education> Users_Education { get; set; }
+        public DbSet<API.Models.Tasks_EducationalStandarts> Tasks_EducationalStandarts { get; set; }
     }
 }
