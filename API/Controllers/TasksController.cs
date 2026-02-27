@@ -23,18 +23,6 @@ namespace API.Controllers
                     Start_Date = t.Start_Date,
                     DueDate = t.DueDate,
                     TaskStatus = t.TaskStatus,
-                    educationStandartsDTO = new GetEducationalStandartsDTO
-                    {
-                        Id = t.educationStandarts.Id,
-                        Title = t.educationStandarts.Title,
-                        Description = t.educationStandarts.Description,
-                        Number = t.educationStandarts.Number,
-                        educationDTO = new GetEducationDTO
-                        {
-                            Id = t.educationStandarts.Education.Id,
-                            Name = t.educationStandarts.Education.Name,
-                        }
-                    },
                     assignedToDTO = new GetUserDTO
                     {
                         Id = t.assignedToId,
@@ -49,6 +37,20 @@ namespace API.Controllers
                         Email = t.createdBy.Email,
                         Role = t.createdBy.Role,
                     },
+                    EducationalStandarts = t.Tasks_EducationalStandarts
+                    .Select(te => new GetEducationalStandartsDTO
+                    {
+                        Id = te.EducationalStandart.Id,
+                        Title = te.EducationalStandart.Title,
+                        Description = te.EducationalStandart.Description,
+                        Number = te.EducationalStandart.Number,
+                        educationDTO = new GetEducationDTO
+                        {
+                            Id = te.EducationalStandart.Education.Id,
+                            Name = te.EducationalStandart.Education.Name
+                        }
+                    })
+                    .ToList()
                 })
                 .ToListAsync());
         }
@@ -66,18 +68,6 @@ namespace API.Controllers
                     Start_Date = t.Start_Date,
                     DueDate = t.DueDate,
                     TaskStatus = t.TaskStatus,
-                    educationStandartsDTO = new GetEducationalStandartsDTO
-                    {
-                        Id = t.educationStandartsId,
-                        Title = t.educationStandarts.Title,
-                        Description = t.educationStandarts.Description,
-                        Number = t.educationStandarts.Number,
-                        educationDTO = new GetEducationDTO
-                        {
-                            Id = t.educationStandarts.Education.Id,
-                            Name = t.educationStandarts.Education.Name,
-                        }
-                    },
                     assignedToDTO = new GetUserDTO
                     {
                         Id = t.assignedToId,
@@ -92,6 +82,20 @@ namespace API.Controllers
                         Email = t.createdBy.Email,
                         Role = t.createdBy.Role,
                     },
+                    EducationalStandarts = t.Tasks_EducationalStandarts
+                    .Select(te => new GetEducationalStandartsDTO
+                    {
+                        Id = te.EducationalStandart.Id,
+                        Title = te.EducationalStandart.Title,
+                        Description = te.EducationalStandart.Description,
+                        Number = te.EducationalStandart.Number,
+                        educationDTO = new GetEducationDTO
+                        {
+                            Id = te.EducationalStandart.Education.Id,
+                            Name = te.EducationalStandart.Education.Name
+                        }
+                    })
+                .ToList()
                 })
                 .FirstOrDefaultAsync();
 
@@ -114,18 +118,6 @@ namespace API.Controllers
                     Start_Date = t.Start_Date,
                     DueDate = t.DueDate,
                     TaskStatus = t.TaskStatus,
-                    educationStandartsDTO = new GetEducationalStandartsDTO
-                    {
-                        Id = t.educationStandarts.Id,
-                        Title = t.educationStandarts.Title,
-                        Description = t.educationStandarts.Description,
-                        Number = t.educationStandarts.Number,
-                        educationDTO = new GetEducationDTO
-                        {
-                            Id = t.educationStandarts.Education.Id,
-                            Name = t.educationStandarts.Education.Name,
-                        }
-                    },
                     assignedToDTO = new GetUserDTO
                     {
                         Id = t.assignedTo.Id,
@@ -140,6 +132,20 @@ namespace API.Controllers
                         Email = t.createdBy.Email,
                         Role = t.createdBy.Role,
                     },
+                    EducationalStandarts = t.Tasks_EducationalStandarts
+                    .Select(te => new GetEducationalStandartsDTO
+                    {
+                        Id = te.EducationalStandart.Id,
+                        Title = te.EducationalStandart.Title,
+                        Description = te.EducationalStandart.Description,
+                        Number = te.EducationalStandart.Number,
+                        educationDTO = new GetEducationDTO
+                        {
+                            Id = te.EducationalStandart.Education.Id,
+                            Name = te.EducationalStandart.Education.Name
+                        }
+                    })
+                    .ToList()
                 })
                 .ToListAsync();
 
@@ -161,18 +167,6 @@ namespace API.Controllers
                     Start_Date = t.Start_Date,
                     DueDate = t.DueDate,
                     TaskStatus = t.TaskStatus,
-                    educationStandartsDTO = new GetEducationalStandartsDTO
-                    {
-                        Id = t.educationStandarts.Id,
-                        Title = t.educationStandarts.Title,
-                        Description = t.educationStandarts.Description,
-                        Number = t.educationStandarts.Number,
-                        educationDTO = new GetEducationDTO
-                        {
-                            Id = t.educationStandarts.Education.Id,
-                            Name = t.educationStandarts.Education.Name,
-                        }
-                    },
                     assignedToDTO = new GetUserDTO
                     {
                         Id = t.assignedTo.Id,
@@ -187,6 +181,20 @@ namespace API.Controllers
                         Email = t.createdBy.Email,
                         Role = t.createdBy.Role,
                     },
+                    EducationalStandarts = t.Tasks_EducationalStandarts
+                    .Select(te => new GetEducationalStandartsDTO
+                    {
+                        Id = te.EducationalStandart.Id,
+                        Title = te.EducationalStandart.Title,
+                        Description = te.EducationalStandart.Description,
+                        Number = te.EducationalStandart.Number,
+                        educationDTO = new GetEducationDTO
+                        {
+                            Id = te.EducationalStandart.Education.Id,
+                            Name = te.EducationalStandart.Education.Name
+                        }
+                    })
+                    .ToList()
                 })
                 .ToListAsync());
         }
@@ -195,11 +203,10 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<GetTaskDTO>> Create(CreateTaskDTO dto)
         {
-            var educationStandard = await _context.EducationalStandarts.FindAsync(dto.educationStandartsId);
             var assignedUser = await _context.Users.FindAsync(dto.assignedToId);
             var createdByUser = await _context.Users.FindAsync(dto.createdById);
 
-            if (educationStandard == null || assignedUser == null || createdByUser == null)
+            if (assignedUser == null || createdByUser == null)
                 return BadRequest("One or more referenced entities do not exist.");
 
             var entity = new Tasks
@@ -209,12 +216,24 @@ namespace API.Controllers
                 Start_Date = dto.Start_Date,
                 DueDate = dto.DueDate,
                 TaskStatus = Status.Pending,
-                educationStandartsId = dto.educationStandartsId,
                 assignedToId = dto.assignedToId,
                 createdById = dto.createdById,
             };
 
             _context.Tasks.Add(entity);
+            await _context.SaveChangesAsync();
+            foreach (int standard in dto.EducationalStandarts)
+            {
+                var educationStandard = await _context.EducationalStandarts.FindAsync(standard);
+                if (educationStandard == null)
+                    continue;
+                var StandardEntrys = new Tasks_EducationalStandarts
+                {
+                    TaskId = entity.Id,
+                    EducationalStandartId = standard,
+                };
+                _context.Tasks_EducationalStandarts.Add(StandardEntrys);
+            }
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetById), new { id = entity.Id }, new GetTaskDTO
@@ -225,18 +244,6 @@ namespace API.Controllers
                 Start_Date = entity.Start_Date,
                 DueDate = entity.DueDate,
                 TaskStatus = Status.Pending,
-                educationStandartsDTO =  new GetEducationalStandartsDTO
-                {
-                    Id = entity.educationStandarts.Id,
-                    Title = entity.educationStandarts.Title,
-                    Description = entity.educationStandarts.Description,
-                    Number = entity.educationStandarts.Number,
-                    educationDTO = new GetEducationDTO
-                    {
-                        Id = entity.educationStandarts.Education.Id,
-                        Name = entity.educationStandarts.Education.Name,
-                    }
-                },
                 assignedToDTO = new GetUserDTO
                 {
                     Id = entity.assignedTo.Id,
@@ -250,32 +257,67 @@ namespace API.Controllers
                     Name = entity.createdBy.Name,
                     Email = entity.createdBy.Email,
                     Role = entity.createdBy.Role,
-                }
+                },
+
             });
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UpdateTaskDTO dto)
         {
-            var educationStandard = await _context.EducationalStandarts.FindAsync(dto.educationStandartsId);
+            var entity = await _context.Tasks
+                .Include(t => t.Tasks_EducationalStandarts)
+                .FirstOrDefaultAsync(t => t.Id == id);
+
+            if (entity == null)
+                return NotFound();
+
             var assignedUser = await _context.Users.FindAsync(dto.assignedToId);
             var createdByUser = await _context.Users.FindAsync(dto.createdById);
 
-            if (educationStandard == null || assignedUser == null || createdByUser == null)
-                return BadRequest("One or more referenced entities do not exist.");
-
-            var entity = await _context.Tasks.FindAsync(id);
-            if (entity == null)
-                return NotFound();
+            if (assignedUser == null || createdByUser == null)
+                return BadRequest("Assigned or CreatedBy user does not exist.");
 
             entity.Title = dto.Title;
             entity.Description = dto.Description;
             entity.Start_Date = dto.Start_Date;
             entity.DueDate = dto.DueDate;
             entity.TaskStatus = dto.TaskStatus;
-            entity.educationStandartsId = dto.educationStandartsId;
             entity.assignedTo = assignedUser;
             entity.createdBy = createdByUser;
+
+            //Remove
+            if (dto.RemoveEducationalStandarts.Any())
+            {
+                var toRemove = entity.Tasks_EducationalStandarts
+                    .Where(te => dto.RemoveEducationalStandarts
+                        .Contains(te.EducationalStandartId))
+                    .ToList();
+
+                _context.Tasks_EducationalStandarts.RemoveRange(toRemove);
+            }
+
+            //Add
+            if (dto.AddEducationalStandartsId.Any())
+            {
+                var existingIds = entity.Tasks_EducationalStandarts
+                    .Select(te => te.EducationalStandartId)
+                    .ToList();
+
+                var newIds = dto.AddEducationalStandartsId
+                    .Where(id => !existingIds.Contains(id))
+                    .ToList();
+
+                foreach (var standardId in newIds)
+                {
+                    entity.Tasks_EducationalStandarts.Add(
+                        new Tasks_EducationalStandarts
+                        {
+                            TaskId = entity.Id,
+                            EducationalStandartId = standardId
+                        });
+                }
+            }
 
             await _context.SaveChangesAsync();
             return NoContent();

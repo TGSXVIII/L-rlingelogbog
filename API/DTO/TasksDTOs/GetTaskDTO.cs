@@ -8,8 +8,8 @@ namespace API.DTO
         public DateTime Start_Date { get; set; }
         public DateTime DueDate { get; set; }
         public Status TaskStatus { get; set; }
-        public GetEducationalStandartsDTO educationStandartsDTO { get; set; }
         public GetUserDTO assignedToDTO { get; set; }
         public GetUserDTO createdByDTO { get; set; }
+        public List<GetEducationalStandartsDTO> EducationalStandarts { get; set; } = new List<GetEducationalStandartsDTO>();
     }
 }

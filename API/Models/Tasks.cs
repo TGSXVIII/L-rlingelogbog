@@ -15,13 +15,13 @@
         public DateTime Start_Date { get; set; }
         public DateTime DueDate { get; set; }
         public Status TaskStatus { get; set; }
-        public int educationStandartsId { get; set; }
-        public EducationalStandarts educationStandarts { get; set; }
         public int assignedToId { get; set; }
         public Users assignedTo { get; set; }
         public int createdById { get; set; }
         public Users createdBy { get; set; }
         public ICollection<PicturesAndVideos> PicturesAndVideos { get; set; }
         = new List<PicturesAndVideos>();
+        public ICollection<Tasks_EducationalStandarts> Tasks_EducationalStandarts { get; set; } 
+        = new List<Tasks_EducationalStandarts>();
     }
 }
