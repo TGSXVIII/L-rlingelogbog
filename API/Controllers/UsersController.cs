@@ -1,3 +1,4 @@
+using API.Services;
 using System.Runtime.Serialization;
 
 namespace API.Controllers
@@ -44,33 +45,6 @@ namespace API.Controllers
                 Role = user.Role
             };
             return Ok(userDto);
-        }
-
-        // POST: api/users
-        [HttpPost]
-        public async Task<ActionResult<GetUserDTO>> Create(CreateUserDTO dto)
-        {
-            var user = new Users
-            {
-                Name = dto.Name,
-                Username = dto.Username,
-                PasswordHash = dto.PasswordHash,
-                Email = dto.Email,
-                Role = dto.Role
-            };
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            var result = new GetUserDTO
-            {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                Role =  user.Role
-            };
-
-            return CreatedAtAction(nameof(GetById), new { id = user.Id }, result);
         }
 
         // PUT: api/users/{id}

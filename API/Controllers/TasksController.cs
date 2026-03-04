@@ -153,7 +153,7 @@ namespace API.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet("GetAllWaiting")]
         public async Task<ActionResult<List<GetTaskDTO>>> GetAllWaiting([FromQuery] int userId)
         {
             return Ok(await _context.Tasks
