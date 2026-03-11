@@ -41,9 +41,7 @@ namespace API.Controllers
                     .Select(te => new GetEducationalStandartsDTO
                     {
                         Id = te.EducationalStandart.Id,
-                        Title = te.EducationalStandart.Title,
                         Description = te.EducationalStandart.Description,
-                        Number = te.EducationalStandart.Number,
                         educationDTO = new GetEducationDTO
                         {
                             Id = te.EducationalStandart.Education.Id,
@@ -86,9 +84,7 @@ namespace API.Controllers
                     .Select(te => new GetEducationalStandartsDTO
                     {
                         Id = te.EducationalStandart.Id,
-                        Title = te.EducationalStandart.Title,
                         Description = te.EducationalStandart.Description,
-                        Number = te.EducationalStandart.Number,
                         educationDTO = new GetEducationDTO
                         {
                             Id = te.EducationalStandart.Education.Id,
@@ -136,9 +132,7 @@ namespace API.Controllers
                     .Select(te => new GetEducationalStandartsDTO
                     {
                         Id = te.EducationalStandart.Id,
-                        Title = te.EducationalStandart.Title,
                         Description = te.EducationalStandart.Description,
-                        Number = te.EducationalStandart.Number,
                         educationDTO = new GetEducationDTO
                         {
                             Id = te.EducationalStandart.Education.Id,
@@ -185,9 +179,7 @@ namespace API.Controllers
                     .Select(te => new GetEducationalStandartsDTO
                     {
                         Id = te.EducationalStandart.Id,
-                        Title = te.EducationalStandart.Title,
                         Description = te.EducationalStandart.Description,
-                        Number = te.EducationalStandart.Number,
                         educationDTO = new GetEducationDTO
                         {
                             Id = te.EducationalStandart.Education.Id,

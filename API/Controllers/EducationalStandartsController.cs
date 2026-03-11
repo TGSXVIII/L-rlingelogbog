@@ -20,9 +20,7 @@ namespace API.Controllers
                 .Select(es => new GetEducationalStandartsDTO
                 {
                     Id = es.Id,
-                    Title = es.Title,
                     Description = es.Description,
-                    Number = es.Number,
                     educationDTO = new GetEducationDTO
                     {
                         Id = es.Education.Id,
@@ -40,9 +38,7 @@ namespace API.Controllers
                 .Select(es => new GetEducationalStandartsDTO
                 {
                     Id = es.Id,
-                    Title = es.Title,
                     Description = es.Description,
-                    Number = es.Number,
                     educationDTO = new GetEducationDTO
                     {
                         Id = es.Education.Id,
@@ -66,9 +62,7 @@ namespace API.Controllers
 
             var entity = new EducationalStandarts
             {
-                Title = dto.Title,
                 Description = dto.Description,
-                Number = dto.Number,
                 EducationId = dto.educationId
             };
 
@@ -78,9 +72,7 @@ namespace API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = entity.Id }, new GetEducationalStandartsDTO
             {
                 Id = entity.Id,
-                Title = entity.Title,
                 Description = entity.Description,
-                Number = entity.Number,
                 educationDTO = new GetEducationDTO
                 {
                     Id = dto.educationId,
@@ -100,9 +92,7 @@ namespace API.Controllers
             if (!await _context.Educations.AnyAsync(e => e.Id == dto.educationId))
                 return BadRequest("Education does not exist");
 
-            entity.Title = dto.Title;
             entity.Description = dto.Description;
-            entity.Number = dto.Number;
             entity.EducationId = dto.educationId;
 
             await _context.SaveChangesAsync();
