@@ -61,33 +61,33 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
+builder.WebHost.UseUrls("http://0.0.0.0:5000");
+
 // =======================
 // App Pipeline
 // =======================
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-var uploadsPath = builder.Configuration["FileStorage:UploadPath"];
-
-Directory.CreateDirectory(uploadsPath);
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(uploadsPath),
+    FileProvider = new PhysicalFileProvider(
+        builder.Configuration["FileStorage:UploadPath"]),
     RequestPath = "/uploads"
 });
 
-app.UseHttpsRedirection();
+app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
+// Remove HTTPS redirection for internal network
+// app.UseHttpsRedirection();
+
 app.Run();
+

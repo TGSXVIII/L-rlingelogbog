@@ -15,29 +15,33 @@
             _jwtService = jwtService;
         }
 
-        // =========================
-        // Register
-        // =========================
+        // POST: api/users
         [HttpPost("register")]
-        public async Task<IActionResult> Register(string username, string password, string email)
+        public async Task<ActionResult<GetUserDTO>> Create(CreateUserDTO dto)
         {
-            if (await _context.Users.AnyAsync(u => u.Username == username))
-                return BadRequest("User already exists");
-
             var user = new Users
             {
-                Username = username,
-                Email = email
+                Name = dto.Name,
+                Username = dto.Username,
+                PasswordHash = _passwordService.HashPassword(dto.Password),
+                Email = dto.Email,
+                Role = dto.Role
             };
-
-            // Use the HashPassword overload that accepts a single string (password).
-            user.PasswordHash = _passwordService.HashPassword(password);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
+            var result = new GetUserDTO
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                Role = user.Role
+            };
+
             return Ok(new { message = "User registered successfully" });
         }
+
         // =========================
         // Login
         // =========================
